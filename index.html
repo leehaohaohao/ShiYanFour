@@ -1,131 +1,231 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<title>时期界面</title>
-		<style type="text/css">
-			body,html{
-                width:100%;
-                height: 100%;
-				background-image: url("img/开始背景.png");
-                background-repeat: no-repeat;
-                background-size: 100% 100%;
-                margin: 0;
-			}
-            .mainDiv{
-                position: relative;
-                width: 1200px; 
-                height: 100%;
-                margin: 0 ;
-            }
-            .circle{
-                width:300px;
-                height: 300px;
-                border-radius: 50%;
-                position: absolute;
-                background-size: 100% 100%;
-                transition: transform 0.3s ease;
-            }
-            .circle:hover{
-                transform: scale(1.1);
-            }
-            .yuanGu{
-                top:10%;
-                left:10%;
-                background-image: url("img/原古时期.png");
-            }/*原始时期*/
-            .xiaShangZhou{
-                bottom:10%;
-                left:30%;
-                background-image: url("img/夏商周时期.png");
-            }/*夏商周时期*/
-            .qinHan{
-                top:10%;
-                left:50%;
-                background-image: url("img/秦汉时期.png");
-            }/*秦汉时期*/
-            .songYuan{
-                bottom:10%;
-                left:70%;
-                background-image: url("img/宋元时期.png");
-            }/*宋元时期*/
-            .mingQing{
-                top:10%;
-                left:90%;
-                background-image: url("img/明清时期.png");
-            }/*明清时期*/
-            .xianDai{
-                bottom:10%;
-                left:110%;
-                background-image: url("img/现代时期.png");
-            }/*现代时期*/
+<html lang="en">
 
-            /* 添加花瓣样式 */
-            .petal {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 10px;
-                height: 10px;
-                background-image: url("img/花瓣.png");
-                background-size: cover;
-                animation: fall linear infinite;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瓷器鉴赏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            background-color: beige;
+            position: relative;
+            background-position: top;
+            display: flex;
+        }
+
+        #banner {
+            width: 800px;
+            height: 938px;
+            overflow: hidden;
+            border: 2px solid #999;
+            position: relative;
+        }
+
+        #banner img {
+            width: 800px;
+            height: 938px;
+        }
+
+        #imglist {
+            width: 4000px;
+            height: 400px;
+        }
+
+        #imglist li {
+            float: left;
+        }
+
+        #icolist {
+            position: absolute;
+            left: 40%;
+            bottom: 10px;
+        }
+
+        #icolist li {
+            float: left;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #515bc7;
+            color: #fff;
+            margin-left: 5px;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .prev {
+            height: 40px;
+            width: 30px;
+            position: absolute;
+            left: 5px;
+            top: 45%;
+            color: #306ee8;
+            font-size: 50px;
+            ;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .next {
+            height: 40px;
+            width: 30px;
+            position: absolute;
+            right: 5px;
+            top: 45%;
+            color: #306ee8;
+            font-size: 50px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 80px;
+            color: rgb(30, 89, 207)
+        }
+
+        p {
+            font-size: 40px;
+            color: rgb(101, 111, 123);
+            text-indent: 2em;
+        }
+
+        #image {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="banner">
+        <ul id="imglist">
+            <li><img src="img/瓷器1.png"></li>
+            <li><img src="img/02.jpg"></li>
+            <li><img src="img/03.jpg"></li>
+            <li><img src="img/04.jpg"></li>
+            <li><img src="img/瓷器1.png"></li>
+        </ul>
+        <ul id="icolist">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+        <div class="prev">《</div>
+        <div class="next">》</div>
+    </div>
+    <div>
+        <h1>瓷器介绍</h1>
+        <p id="intro">介绍1</p>
+
+    </div>
+    <script>
+        var esico = document.getElementById('icolist').getElementsByTagName('li');
+        var eicolist = document.querySelector('#icolist');
+        var eimglist = document.querySelector('#imglist');
+        var etest = document.querySelector('#test');
+        var eprev = document.querySelector('.prev');
+        var enext = document.querySelector('.next');
+        var intro = document.getElementById("intro")
+        var left = 0;
+        var timer;
+        run();
+        function run() {
+            if (left <= -3200) {
+                left = 0;
+            }
+            var m = Math.floor(-left / 800);
+            imglist.style.marginLeft = left + 'px';
+            var n = (left % 800 == 0) ? n = 5000 : n = 6;
+            left -= 10;
+            icochange(m);
+            updatetxt(m);
+            timer = setTimeout(run, n);
+        }
+
+        function icochange(m) {
+            for (let index = 0; index < esico.length; index++) {
+                esico[index].style.backgroundColor = '';
             }
 
-            @keyframes fall {
-                0% {
-                    transform: translateX(calc(100vw * Math.random())) translateY(-10%);
-                }
-                100% {
-                    transform: translateX(calc(100vw * Math.random())) translateY(110%);
-                }
-            }
-		</style>
-        <script type="text/javascript">
-            /* 添加 JavaScript 代码来随机改变花瓣的大小和下落速度 */
-            // 创建一个数组来存储所有的花瓣元素
-            var petals = [];
-
-            // 创建一个函数来生成新的花瓣
-            function createPetal() {
-                var petal = document.createElement('div');
-                petal.className = 'petal';
-                petal.style.left = Math.random() * window.innerWidth + 'px';
-                petal.style.animationDuration = 2 + Math.random() * 5 + 's';
-                document.body.appendChild(petal);
-                petals.push(petal);
+            if (m < esico.length) {
+                esico[m].style.backgroundColor = 'grey';
             }
 
-            // 创建一个函数来移除落到底部的花瓣
-            function removePetal() {
-                for (var i = 0; i < petals.length; i++) {
-                    if (parseInt(getComputedStyle(petals[i]).top) > window.innerHeight) {
-                        document.body.removeChild(petals[i]);
-                        petals.splice(i, 1);
-                    }
-                }
+        }
+
+        function imgchange(n) {
+            let lt = - (n * 800)
+            imglist.style.marginLeft = lt + 'px';
+            left = lt;
+        }
+
+        eprev.onclick = function () {
+            let prevgo = Math.floor(-left / 800) - 1;
+            if (prevgo == -1) {
+                prevgo = 3;
             }
+            imgchange(prevgo);
+            icochange(prevgo);
+            updatetxt(prevgo);
+        }
 
-            // 每隔一段时间生成一个新的花瓣
-            setInterval(createPetal, 200);
+        enext.onclick = function () {
+            let nextgo = Math.floor(-left / 800) + 1;
+            if (nextgo == 4) {
+                nextgo = 0;
+            }
+            imgchange(nextgo);
+            icochange(nextgo);
+            updatetxt(nextgo);
+        }
 
-            // 每隔一段时间移除落到底部的花瓣
-            setInterval(removePetal, 1000);
-        </script>
-	</head>
-	<body>
-		<div class="mainDiv">
-            <a href="ageInfo.html"><div class="circle yuanGu"></div></a>
-            <a href="ageInfo.html"><div class="circle xiaShangZhou"></div></a>
-            <a href="ageInfo.html"><div class="circle songYuan"></div></a>
-            <a href="ageInfo.html"><div class="circle qinHan"></div></a>
-            <a href="ageInfo.html"><div class="circle mingQing"></div></a>
-            <a href="ageInfo.html"><div class="circle xianDai"></div></a>
+        eicolist.onclick = function () {
+            var tg = event.target;
+            let ico = tg.innerHTML - 1;
+            imgchange(ico);
+            icochange(ico);
+        }
 
-            <!-- 添加花瓣元素 -->
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <!-- 更多花瓣 -->
-        </div>
-	</body>
+        eimglist.onmouseover = function () {
+            clearTimeout(timer);
+        }
+
+
+        eimglist.onmouseout = function () {
+            run();
+        }
+        function updatetxt(m) {
+            if (m == 0) {
+                intro.innerText = ""
+                intro.innerText = "1"
+            }
+            if (m == 1) {
+                intro.innerText = ""
+                intro.innerText = "2"
+            }
+            if (m == 2) {
+                intro.innerText = ""
+                intro.innerText = "3"
+            }
+            if (m == 3) {
+                intro.innerText = ""
+                intro.innerText = "4"
+            }
+        }
+    </script>
+</body>
+
 </html>
